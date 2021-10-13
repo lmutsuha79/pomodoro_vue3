@@ -149,7 +149,7 @@ export default {
   font-family: "Inter", sans-serif;
 }
 #wraper {
-  background-color: #1e2140;
+  background-color: var(--text-blue);
   height: 100vh;
   display: flex;
   justify-content: center;

@@ -17,3 +17,6 @@ yarn build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+See [live preview](https://happy-sinoussi-447aef.netlify.app).
+
