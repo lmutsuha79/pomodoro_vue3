@@ -10,7 +10,6 @@
 
 
 <script>
-import { computed } from '@vue/reactivity'
 export default {
     props: ['title','same_line'],
     computed: {
@@ -43,6 +42,10 @@ export default {
         font-weight: bold;
         font-size: 18px;
         margin-bottom: 10px;
+    }
+    .in_one_line_style header{
+        margin-bottom: 0px;
+
     }
     .option_body{
         display: flex;

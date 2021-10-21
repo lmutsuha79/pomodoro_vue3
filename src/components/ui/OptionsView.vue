@@ -45,14 +45,33 @@
         >
         </pick-color>
       </option-section>
+      <option-section same_line="true" title="focus mode">
+        <!-- <template v-slot:default>
+          <div>
+            <input type="checkbox" id="checkbox" v-model="checked"
+              style="margin:0px 5px;"
+            >
+            <label for="checkbox">selected</label>
+          </div>
+        </template> -->
+
+
+        <entre-fscrean :fullScreanTarget="fullScreanTarget"></entre-fscrean>
+      </option-section>
+
     </div>
+    <!-- .#options_container -->
   </div>
+  <!-- .#options_wraper -->
 </template>
+
+
 
 <script>
 import AdjustTime from "./options_ui/AdjustTime.vue";
 import OptionSection from "./options_ui/OptionSection.vue";
 import PickColor from "./options_ui/PickColor.vue";
+import EntreFscrean from './options_ui/EntreFscrean.vue';
 export default {
 
   emits: ['options-close-event','change-default-color','pomodoro-time',
@@ -60,25 +79,25 @@ export default {
           'longBreak-change',
           'shortBreak-change'
   ],
-  props: ["header_title","colors","pomodoroTime","shortBreakTime","longBreakTime"],
+  props: ["header_title","colors","pomodoroTime","shortBreakTime","longBreakTime","fullScreanTarget"],
   components: {
     OptionSection,
     AdjustTime,
     PickColor,
+    EntreFscrean,
   },
   data() {
     return {
 
-      // pomodoro_inp: this.pomodoroTime,
-      // short_break_inp: this.shortBreakTime,
-      // long_break_inp: this.longBreakTime,
 
       defaultIndexColor: 0,
       colors: this.colors,
     };
   },
   methods: {
-
+    dd(){
+      console.log('emit')
+    },
     changeColor(color) {
       const index = this.colors.indexOf(color);
       this.defaultIndexColor = index;

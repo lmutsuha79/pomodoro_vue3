@@ -1,31 +1,51 @@
 <template>
-  <div id="wraper" :style="cssVars">
-    <h1 class="">pomodoro</h1>
+  <div id="wraper" :style="cssVars" ref="wrapper">
+      <!-- ################################################### -->
 
+    <!-- the title in the center of the main window -->
+    <h1 class="main_title">pomodoro</h1>
+    <!-- ################################################### -->
+
+    <!-- the nav bar contain the links of tabs -->
+          <!-- ###################### nav bar for tabs ################################ -->
     <nav-bar :activeTab="selected_tab"></nav-bar>
-    <!-- <keep-alive> -->
+    <!-- ################################################### -->
+
+          <!-- ###################### tabs ################################ -->
+
+<!-- ############################## -->
+  <!-- pomodoro tab: -->
     <poro-modo
       v-if="selected_tab === 'poroModo'"
       :starting="pomodoro_inp"
     ></poro-modo>
-    <!-- </keep-alive> -->
-    <!-- <keep-alive> -->
+<!-- ############################## -->
+
+  <!-- short break tab: -->
     <short-break
       v-if="selected_tab === 'shortBreak'"
       :starting="short_break_inp"
     ></short-break>
-    <!-- </keep-alive> -->
+<!-- ############################## -->
 
-    <!-- <keep-alive> -->
+  <!-- long break tab: -->
     <long-break
       v-if="selected_tab === 'longBreak'"
       :starting="long_break_inp"
     ></long-break>
-    <!-- </keep-alive> -->
+<!-- ############################## -->
 
+    <!-- ################################################### -->
+<!-- settings_button click on it to open the settings window -->
+    <!-- click event is waiting to make the option window visible -->
     <settings-button @click="optionsVisible = true"></settings-button>
+    <!-- ################################################### -->
+          <!-- ###################### windows ################################ -->
+    <!-- ################################################### -->
 
-    <!-- <keep-alive> -->
+<!-- the options view (window) -->
+<keep-alive>
+
     <options-view
       v-if="optionsVisible"
       header_title="Setings"
@@ -38,14 +58,22 @@
       @pomodoroTime-change="(data) => (pomodoro_inp = data)"
       @shortBreak-change="(data) => (short_break_inp = data)"
       @longBreak-change="(data) => (long_break_inp = data)"
+      :fullScreanTarget="$refs.wrapper"
+      
     ></options-view>
-    <!-- </keep-alive> -->
 
+</keep-alive>
+    <!-- ################################################### -->
+  <!-- the warn window when trying to switch the tab when the timer in runing -->
+  <!-- when clicking on the window it close -->
+  <!-- when clicking on the oky button inside the iptions view nothing hapens -->
+  <!-- but the window still close  -->
   <pause-before
     v-if="Pause_before_warn_is_active"
     @click="Pause_before_warn_is_active = false"
   ></pause-before>
-    
+      <!-- ################################################### -->
+
   
   </div>
   <!-- #wraper -->
@@ -99,6 +127,7 @@ export default {
     cssVars() {
       return {
         "--main-color": this.mainColor,
+        
       };
     },
   },
@@ -147,7 +176,12 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700;800&display=swap");
 * {
   font-family: "Inter", sans-serif;
+  user-select: none;
+  /* p,a,span,h1,h2,h3,h4,h5,h6,input,label,header,footer,main,div {
+  user-select: none;
+} */
 }
+
 #wraper {
   background-color: var(--text-blue);
   height: 100vh;
@@ -157,7 +191,7 @@ export default {
   flex-direction: column;
   gap: 40px;
 }
-h1 {
+.main_title {
   margin: 0px;
   color: white;
   font-weight: bold;
