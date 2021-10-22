@@ -4,16 +4,18 @@
       <sircle-bar :percentage="percentage"></sircle-bar>
 
       <div id="sircle_content_text">
-       <div class="all_text_not_reset" @click="count"> 
+        <div class="all_text_not_reset" @click="count">
           <div id="timer">
-          <span id="min">{{ formate_number(currentMin) }}</span>
-          <span id="colom" ref="theColom">:</span>
-          <span id="sec">{{ formate_number(currentSec) }}</span>
+            <span id="min">{{ formate_number(currentMin) }}</span>
+            <span id="colom" ref="theColom">:</span>
+            <span id="sec">{{ formate_number(currentSec) }}</span>
+          </div>
+          <!-- .#timer -->
+          <span id="timer_text">{{ timer_text }}</span>
         </div>
-        <!-- .#timer -->
-        <span id="timer_text">{{ timer_text }}</span>
-       </div>
-        <div v-if="percentage != 0" id="reset_timer" @click="click_reset">reset timer</div>
+        <div v-if="percentage != 0" id="reset_timer" @click="click_reset">
+          reset timer
+        </div>
       </div>
       <!-- .#sircle_content_text -->
     </div>
@@ -24,19 +26,27 @@
 
 <script>
 import SircleBar from "./SircleBar.vue";
+
+import successMp3 from "../../assets/mp3/success.mp3";
+
 export default {
   props: ["start"],
-  inject: ['isTheTimerWorking','timeSpeed'],
+  inject: ["isTheTimerWorking", "timeSpeed"],
 
   components: {
     SircleBar,
   },
   watch: {
-    start: function(){
-        this.currentMin = this.start;
+    percentage: function (pers) {
+      if (pers === 100) {
+        const audio = new Audio(successMp3);
+        audio.play();
+      }
+    },
+    start: function () {
+      this.currentMin = this.start;
     },
     currentSec: function (sec) {
-   
       this.percentage =
         100 -
         (100 * (this.currentMin * 60 + this.currentSec)) / (this.start * 60);
@@ -55,9 +65,9 @@ export default {
   },
 
   methods: {
-    click_reset(){
-      this.count()
-      this.resetTimer()
+    click_reset() {
+      this.count();
+      this.resetTimer();
     },
     formate_number(number) {
       return number.toLocaleString("en-US", {
@@ -66,12 +76,11 @@ export default {
       });
     },
     resetTimer() {
-      
       this.currentMin = this.start;
       this.currentSec = 0;
       this.timer_text = "start";
       this.percentage = 0;
-      this.isTheTimerWorking('no')
+      this.isTheTimerWorking("no");
     },
     change_timer_text() {
       if (this.timer_text === "start") {
@@ -98,17 +107,17 @@ export default {
         // reset the timer :
         this.resetTimer();
       } else {
-          this.checkZeroOnSecs();
-          this.currentSec--;
-          this.colon_flash(this.currentSec);
+        this.checkZeroOnSecs();
+        this.currentSec--;
+        this.colon_flash(this.currentSec);
       }
     },
     count() {
       if (this.timer_text === "pause") {
         clearInterval(this.entervalId);
-        this.isTheTimerWorking('no')
+        this.isTheTimerWorking("no");
       } else {
-            this.isTheTimerWorking('yes')
+        this.isTheTimerWorking("yes");
 
         const enterval = setInterval(() => {
           // give the enterval Id to stop it later
@@ -177,31 +186,29 @@ span {
   letter-spacing: 5px;
   font-size: 16px;
   transition: 0.1s ease;
-  
 }
 
 #timer {
   font-size: 56px;
   font-weight: 500;
 }
-#reset_timer{
+#reset_timer {
   color: #353b71;
   margin: 5px 0px;
   transition: 0.1s;
   font-size: 14px;
-
 }
-#reset_timer:hover{
+#reset_timer:hover {
   color: var(--main-color);
   font-size: 16px;
 }
-.all_text_not_reset,#reset_timer{
+.all_text_not_reset,
+#reset_timer {
   cursor: pointer;
 }
-.all_text_not_reset:hover #timer_text{
+.all_text_not_reset:hover #timer_text {
   font-size: 18px;
   font-weight: bold;
   color: var(--main-color);
 }
-
 </style>
