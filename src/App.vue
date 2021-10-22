@@ -94,6 +94,7 @@ export default {
       reSelectTab: this.reSelectTab,
       isTheTimerWorking: this.is_the_timer_working,
       timeSpeed: this.time_speed,
+      getTimerStatus: this.get_timer_status,
     };
   },
   components: {
@@ -132,6 +133,8 @@ export default {
     },
   },
   methods: {
+    // this method is provided to the timer component 
+    // to get the timer status and make it = this.timer_is_runing data
     is_the_timer_working(is) {
       if (is === "yes") {
         this.timer_is_runing = true;
@@ -140,6 +143,12 @@ export default {
       } else {
         console.log("acsept yes or no only");
       }
+    },
+    // this methods provide to other comps to let them know the timr state
+    // because if we provide the data timer_is_runing directly 
+    // provide and inject aproche is not reactive
+    get_timer_status(){
+      return this.timer_is_runing;
     },
 
 

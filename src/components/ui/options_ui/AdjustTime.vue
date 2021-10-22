@@ -2,9 +2,9 @@
   <div class="wraper">
     <label for="inp">{{lable}}</label>
     <div class="input_number">
-      <input type="number" max="120" min="0" :value="time" />
-      <div class="controle_btns">
-        <div class="arrow btn_top" @click="$emit('plusCount')">
+      <input type="number" max="120" min="0" :value="time" disabled />
+      <div class="controle_btns" :style="contorl_btn_style" >
+        <div class="arrow btn_top" @click="$emit('plusCount')" >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
@@ -85,9 +85,18 @@
 export default {
     emits : ['plusCount','minsCount'],
     props: ['lable','time'],
-    
-    methods: {
-        
+    inject: ['getTimerStatus'],
+
+    computed: {
+      contorl_btn_style: function(){
+         if(this.getTimerStatus()){
+          return `pointer-events: none;`
+
+        }
+        else{
+          return `pointer-events: auto;`
+        }
+      }
     }
     
 
@@ -162,6 +171,7 @@ input:hover {
     cursor: pointer;
     /* background: red; */
     /* border: 1px solid black; */
+
 
 }
 .controle_btns .arrow svg g {

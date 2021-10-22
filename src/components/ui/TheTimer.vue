@@ -1,16 +1,19 @@
 <template>
   <div class="container">
-    <div class="sircle" @click="count">
+    <div class="sircle">
       <sircle-bar :percentage="percentage"></sircle-bar>
 
       <div id="sircle_content_text">
-        <div id="timer">
+       <div class="all_text_not_reset" @click="count"> 
+          <div id="timer">
           <span id="min">{{ formate_number(currentMin) }}</span>
           <span id="colom" ref="theColom">:</span>
           <span id="sec">{{ formate_number(currentSec) }}</span>
         </div>
         <!-- .#timer -->
         <span id="timer_text">{{ timer_text }}</span>
+       </div>
+        <div v-if="percentage != 0" id="reset_timer" @click="click_reset">reset timer</div>
       </div>
       <!-- .#sircle_content_text -->
     </div>
@@ -52,6 +55,10 @@ export default {
   },
 
   methods: {
+    click_reset(){
+      this.count()
+      this.resetTimer()
+    },
     formate_number(number) {
       return number.toLocaleString("en-US", {
         minimumIntegerDigits: 2,
@@ -59,6 +66,7 @@ export default {
       });
     },
     resetTimer() {
+      
       this.currentMin = this.start;
       this.currentSec = 0;
       this.timer_text = "start";
@@ -90,9 +98,9 @@ export default {
         // reset the timer :
         this.resetTimer();
       } else {
-        this.checkZeroOnSecs();
-        this.currentSec--;
-        this.colon_flash(this.currentSec);
+          this.checkZeroOnSecs();
+          this.currentSec--;
+          this.colon_flash(this.currentSec);
       }
     },
     count() {
@@ -101,7 +109,6 @@ export default {
         this.isTheTimerWorking('no')
       } else {
             this.isTheTimerWorking('yes')
-
 
         const enterval = setInterval(() => {
           // give the enterval Id to stop it later
@@ -152,7 +159,7 @@ export default {
   align-items: center;
   flex-direction: column;
   gap: 20px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 #sircle_content_text {
@@ -168,9 +175,33 @@ span {
 } */
 #timer_text {
   letter-spacing: 5px;
+  font-size: 16px;
+  transition: 0.1s ease;
+  
 }
+
 #timer {
   font-size: 56px;
   font-weight: 500;
 }
+#reset_timer{
+  color: #353b71;
+  margin: 5px 0px;
+  transition: 0.1s;
+  font-size: 14px;
+
+}
+#reset_timer:hover{
+  color: var(--main-color);
+  font-size: 16px;
+}
+.all_text_not_reset,#reset_timer{
+  cursor: pointer;
+}
+.all_text_not_reset:hover #timer_text{
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--main-color);
+}
+
 </style>

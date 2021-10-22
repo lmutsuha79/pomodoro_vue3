@@ -7,8 +7,8 @@
           <img src="../../assets/close.png" />
         </div>
       </header>
-
-      <option-section same_line="false" title="Time (minutes)">
+  <!-- ####################### timer options ############################### -->
+      <option-section same_line="false" title="Time (minutes)" :disable="getTimerStatus()" :style="timerOptionStyle">
         <template v-slot:default>
           <adjust-time
             :time="pomodoroTime"
@@ -34,7 +34,7 @@
           ></adjust-time>
         </template>
       </option-section>
-
+  <!-- ########################## colors option ######################### -->
       <option-section same_line="true" title="Color">
         <pick-color
           v-for="color in colors"
@@ -45,6 +45,7 @@
         >
         </pick-color>
       </option-section>
+  <!-- ########################## full screan mode option ####################### -->
       <option-section same_line="true" title="focus mode">
         <!-- <template v-slot:default>
           <div>
@@ -86,18 +87,26 @@ export default {
     PickColor,
     EntreFscrean,
   },
+  inject: ['getTimerStatus'],
   data() {
     return {
-
-
       defaultIndexColor: 0,
       colors: this.colors,
     };
   },
+  computed: {
+      timerOptionStyle: function(){
+         if(this.getTimerStatus() === false){
+          return `color: var(--text-blue); cursor: auto;`
+
+        }
+        else{
+          return `color: #cccccc; cursor: not-allowed;`
+        }
+      }
+  },
   methods: {
-    dd(){
-      console.log('emit')
-    },
+
     changeColor(color) {
       const index = this.colors.indexOf(color);
       this.defaultIndexColor = index;
@@ -111,6 +120,7 @@ export default {
 </script>
 
 <style scoped>
+
 #options_wraper {
   background: rgba(0, 0, 0, 0.5);
   width: 100%;

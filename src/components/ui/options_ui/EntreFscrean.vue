@@ -23,7 +23,6 @@ export default {
    methods: {
     full_screan_mode(){
         // we keep the full screan in options with <keep-alive> in the app.vue forthe hole option-view
-        console.log(typeof(this.checked))
         if(this.checked){
             
 
